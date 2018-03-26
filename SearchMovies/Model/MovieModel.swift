@@ -15,37 +15,64 @@ class MovieModel {
     let searchText = Variable("")
     let disposeBag = DisposeBag()
     let client = MovieSearchClient()
+    var currentPage = 0
+    var total_page = 0
     var params = ["page" : "1" , "api_key" : "2696829a81b1b5827d515ff121700838"]
+
+    let newPageNeeded = PublishSubject<Void>()
     
-    lazy var data: Driver<[Movie]> = {
-        return self.searchText.asObservable()
-            .throttle(0.3, scheduler: MainScheduler.instance)
-            .flatMapLatest {
-                self.getMovies(query: $0)
-            }
-            .asDriver(onErrorJustReturn: [])
+    struct RequestPage {
+        let query: String
+        let page: Int
+    }
+    
+    private var movies : Variable<[Movie]> = Variable([])
+    lazy var results : Driver<[Movie]> = {
+        return movies.asDriver()
     }()
     
-    func getMovies(query : String) -> Observable<[Movie]>{
+    init() {
+    
+        let requestNeeded = searchText.asObservable()
+            .throttle(0.3, scheduler: MainScheduler.instance)
+            .flatMapLatest { text in
+                self.newPageNeeded.asObservable()
+                    .startWith(())
+                    .scan(RequestPage(query: text, page: 0)) { request, _ in
+                        return RequestPage(query: text, page: request.page + 1)
+                }.share(replay: 1)
+           }.share(replay: 1)
         
-        print("query" ,query)
+        requestNeeded.subscribe(onNext: { page in
+            print(page)
+            self.requestMovies(request: page)
+        }).disposed(by: disposeBag)
+    }
+    
+    func requestMovies(request : RequestPage) {
         
-        if query.isEmpty {
-            return Observable.just([])
+        if request.query.isEmpty {
+            self.movies.value = []
+            return
         }
         
-        params["query"] = query
+        if request.page == total_page {
+            return
+        }
+        
+        params["query"] = request.query
+        params["page"] = String(request.page)
+        
         let searchRequest = SearchRequest( parameters : params)
         
-        return client.send(apiRequest: searchRequest)
-            .map { (movieResponse : MovieResponse) in
-                movieResponse.results
-            }
-            .catchError({ (error) -> Observable<[Movie]> in
+        client.send(apiRequest: searchRequest)
+            .map { (movieResponse : MovieResponse) -> [Movie] in
+                self.total_page = movieResponse.totalPages
+                return movieResponse.results
+            }.subscribe(onNext: { (movies) in
+                self.movies.value.append(contentsOf: movies)
+            }, onError: { (error) in
                 print("error",error)
-                return Observable.just([])
-            })
-            .observeOn(MainScheduler.instance)
-            .share(replay: 1)
+            }).disposed(by: disposeBag)
     }
 }

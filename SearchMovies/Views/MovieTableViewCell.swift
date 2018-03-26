@@ -56,7 +56,6 @@ class MovieTableViewCell: UITableViewCell {
         }
         
     }
-    
 }
 
 extension MovieTableViewCell : NibLoadableView {}

@@ -29,7 +29,6 @@ extension APIClientError: CustomDebugStringConvertible {
 protocol APIClient : class {
     var baseURL : URL {get set}
     func send<T: Codable>(apiRequest: APIRequest) -> Observable<T>
-    func downloadImage(imageRequest : ImageRequest) -> Observable<UIImage>
 }
 
 extension APIClient {
@@ -37,7 +36,6 @@ extension APIClient {
     func send<T: Codable>(apiRequest: APIRequest) -> Observable<T> {
         return Observable<T>.create { [unowned self] observer in
             let request = apiRequest.request(with: self.baseURL)
-            print("request url",request.url?.absoluteString)
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 guard error == nil else {
                     observer.onError(APIClientError.Other(error!))
@@ -61,6 +59,15 @@ extension APIClient {
             }
         }
     }
+}
+
+
+class  MovieSearchClient : APIClient {
+    var baseURL: URL = URL(string: "https://api.themoviedb.org/3/")!
+}
+
+class ImageClient : APIClient {
+    var baseURL: URL = URL(string: "https://image.tmdb.org/t/p/w92")!
     
     func downloadImage(imageRequest : ImageRequest) -> Observable<UIImage> {
         return Observable<UIImage>.create { [unowned self] observer in
@@ -88,15 +95,6 @@ extension APIClient {
             }
         }
     }
-}
-
-
-class  MovieSearchClient : APIClient {
-    var baseURL: URL = URL(string: "https://api.themoviedb.org/3/")!
-}
-
-class ImageClient : APIClient {
-    var baseURL: URL = URL(string: "https://image.tmdb.org/t/p/w92")!
 }
 
 
