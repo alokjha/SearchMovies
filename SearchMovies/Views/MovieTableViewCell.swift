@@ -35,7 +35,7 @@ class MovieTableViewCell: UITableViewCell {
     func setUp(movie : Movie){
         self.title.text = movie.title
         self.overview.text = movie.overview
-        self.releaseDate.text = movie.releaseDate
+        self.releaseDate.text = formatDate(movie.releaseDate)
         
         if let url = movie.posterURL {
             
@@ -54,7 +54,17 @@ class MovieTableViewCell: UITableViewCell {
             .disposed(by: disposeBag)
 
         }
+    }
+    
+    func formatDate(_ dateString : String) -> String? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY-MM-dd"
         
+        guard let date = formatter.date(from: dateString) else {
+            return nil
+        }
+        formatter.dateFormat = "dd MMMM YYYY"
+        return formatter.string(from: date)
     }
 }
 

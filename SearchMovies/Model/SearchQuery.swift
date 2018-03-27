@@ -13,3 +13,10 @@ struct SearchQuery {
     let page : Int
 }
 
+extension SearchQuery :  Equatable {
+    
+    static func ==(lhs: SearchQuery, rhs: SearchQuery) -> Bool {
+        return lhs.value.lowercased() == rhs.value.lowercased() && lhs.page == rhs.page
+    }
+
+}

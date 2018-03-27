@@ -28,7 +28,9 @@
 		C26FD4D0206643230065DEE3 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26FD4CF206643230065DEE3 /* ReusableView.swift */; };
 		C26FD4D2206643610065DEE3 /* NibLoadableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26FD4D1206643610065DEE3 /* NibLoadableView.swift */; };
 		C26FD4D4206643F40065DEE3 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26FD4D3206643F40065DEE3 /* TableView.swift */; };
-		C26FD4D62066479E0065DEE3 /* MovieModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26FD4D52066479E0065DEE3 /* MovieModel.swift */; };
+		C2C28D96206AA32A00883AD3 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C28D95206AA32A00883AD3 /* Result.swift */; };
+		C2C28D98206AA34B00883AD3 /* SearchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C28D97206AA34B00883AD3 /* SearchState.swift */; };
+		C2C28D9A206AC81700883AD3 /* ResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C28D99206AC81700883AD3 /* ResultViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,7 +70,9 @@
 		C26FD4CF206643230065DEE3 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		C26FD4D1206643610065DEE3 /* NibLoadableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibLoadableView.swift; sourceTree = "<group>"; };
 		C26FD4D3206643F40065DEE3 /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
-		C26FD4D52066479E0065DEE3 /* MovieModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieModel.swift; sourceTree = "<group>"; };
+		C2C28D95206AA32A00883AD3 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		C2C28D97206AA34B00883AD3 /* SearchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchState.swift; sourceTree = "<group>"; };
+		C2C28D99206AC81700883AD3 /* ResultViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultViewModel.swift; sourceTree = "<group>"; };
 		CFCAFD639885D55523F363F5 /* Pods-SearchMovies.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchMovies.release.xcconfig"; path = "Pods/Target Support Files/Pods-SearchMovies/Pods-SearchMovies.release.xcconfig"; sourceTree = "<group>"; };
 		E3726F710A404ED2EB72ABE0 /* Pods_SearchMoviesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SearchMoviesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F17CB57692D25149FEA5F5D4 /* Pods_SearchMovies.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SearchMovies.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,7 +178,9 @@
 		C26FD4C420652D4B0065DEE3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C26FD4D52066479E0065DEE3 /* MovieModel.swift */,
+				C2C28D99206AC81700883AD3 /* ResultViewModel.swift */,
+				C2C28D95206AA32A00883AD3 /* Result.swift */,
+				C2C28D97206AA34B00883AD3 /* SearchState.swift */,
 				C2572F85206649CC00F418A2 /* ImageModel.swift */,
 				C26FD4C520652D630065DEE3 /* Movie.swift */,
 				C237618B20693DE60017166A /* SearchQuery.swift */,
@@ -437,18 +443,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2C28D9A206AC81700883AD3 /* ResultViewModel.swift in Sources */,
 				C26FD4C620652D630065DEE3 /* Movie.swift in Sources */,
 				C26FD4D4206643F40065DEE3 /* TableView.swift in Sources */,
 				C237618C20693DE60017166A /* SearchQuery.swift in Sources */,
 				C26FD4D0206643230065DEE3 /* ReusableView.swift in Sources */,
 				C237618A20693CF30017166A /* PersistenceStore.swift in Sources */,
 				C26FD4C1206522070065DEE3 /* APIRequest.swift in Sources */,
+				C2C28D96206AA32A00883AD3 /* Result.swift in Sources */,
 				C26FD4CB20663F790065DEE3 /* MovieTableViewCell.swift in Sources */,
 				C26FD4C32065273C0065DEE3 /* SearchRequest.swift in Sources */,
+				C2C28D98206AA34B00883AD3 /* SearchState.swift in Sources */,
 				C26FD4D2206643610065DEE3 /* NibLoadableView.swift in Sources */,
 				C26FD49A20650A030065DEE3 /* ViewController.swift in Sources */,
 				C26FD49820650A030065DEE3 /* AppDelegate.swift in Sources */,
-				C26FD4D62066479E0065DEE3 /* MovieModel.swift in Sources */,
 				C26FD4BE206522070065DEE3 /* APIClient.swift in Sources */,
 				C2572F86206649CC00F418A2 /* ImageModel.swift in Sources */,
 				C26FD4BF206522070065DEE3 /* ImageRequest.swift in Sources */,
@@ -607,11 +615,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = FBXNNJCQ93;
+				DEVELOPMENT_TEAM = RKG87GFEV3;
 				INFOPLIST_FILE = SearchMovies/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.alokjha.SearchMovies;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.BMD.-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
@@ -626,11 +634,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = FBXNNJCQ93;
+				DEVELOPMENT_TEAM = RKG87GFEV3;
 				INFOPLIST_FILE = SearchMovies/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.alokjha.SearchMovies;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.BMD.-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;

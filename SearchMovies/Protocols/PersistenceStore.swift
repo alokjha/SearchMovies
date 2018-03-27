@@ -15,6 +15,7 @@ protocol PersistenceStore {
     var storage : Storage {get}
     
     func save(_ obj : DataBaseObject)
+    func allObjects() -> [DataBaseObject]
 }
 
 
@@ -28,33 +29,25 @@ struct SearchQueryStore : PersistenceStore {
 
     func save(_ obj: SearchQuery) {
         
+        let value = obj.value.lowercased()
+        
         guard var array = storage.array(forKey: key) as? [String] else {
-            let array = Array<String>.init(arrayLiteral: obj.value)
+            let array = [value]
             storage.set(array, forKey: key)
             storage.synchronize()
             return
         }
         
+        if let index = array.index(of: value) {
+            array.remove(at: index)
+        }
+        
         if array.count == 10 {
-            
-            if let index = array.index(of: obj.value) {
-                array.remove(at: index)
-                array.append(obj.value)
-            }
-            else {
-                array.removeFirst()
-                array.append(obj.value)
-            }
+            array.removeFirst()
+            array.insert(value, at: 0)
         }
         else {
-            
-            if let index = array.index(of: obj.value) {
-                array.remove(at: index)
-                array.append(obj.value)
-            }
-            else {
-                array.append(obj.value)
-            }
+            array.insert(value, at: 0)
         }
         
         storage.set(array, forKey: key)
