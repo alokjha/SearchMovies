@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		31F8735BCC4F6C70B3715E25 /* Pods_SearchMoviesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3726F710A404ED2EB72ABE0 /* Pods_SearchMoviesTests.framework */; };
 		7EDCEFE6E316DC9A888CF3C1 /* Pods_SearchMovies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17CB57692D25149FEA5F5D4 /* Pods_SearchMovies.framework */; };
+		C237618A20693CF30017166A /* PersistenceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C237618920693CF30017166A /* PersistenceStore.swift */; };
+		C237618C20693DE60017166A /* SearchQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = C237618B20693DE60017166A /* SearchQuery.swift */; };
 		C2572F86206649CC00F418A2 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2572F85206649CC00F418A2 /* ImageModel.swift */; };
 		C26FD49820650A030065DEE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26FD49720650A030065DEE3 /* AppDelegate.swift */; };
 		C26FD49A20650A030065DEE3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26FD49920650A030065DEE3 /* ViewController.swift */; };
@@ -43,6 +45,8 @@
 		1661536B724E3856E5A43A74 /* Pods-SearchMoviesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchMoviesTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SearchMoviesTests/Pods-SearchMoviesTests.release.xcconfig"; sourceTree = "<group>"; };
 		4E76794FFB6D15E0C234397E /* Pods-SearchMoviesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchMoviesTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SearchMoviesTests/Pods-SearchMoviesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		88166DFB5C74EA5CE75F2EF8 /* Pods-SearchMovies.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchMovies.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SearchMovies/Pods-SearchMovies.debug.xcconfig"; sourceTree = "<group>"; };
+		C237618920693CF30017166A /* PersistenceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceStore.swift; sourceTree = "<group>"; };
+		C237618B20693DE60017166A /* SearchQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchQuery.swift; sourceTree = "<group>"; };
 		C2572F85206649CC00F418A2 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
 		C26FD49420650A030065DEE3 /* SearchMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C26FD49720650A030065DEE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -173,6 +177,7 @@
 				C26FD4D52066479E0065DEE3 /* MovieModel.swift */,
 				C2572F85206649CC00F418A2 /* ImageModel.swift */,
 				C26FD4C520652D630065DEE3 /* Movie.swift */,
+				C237618B20693DE60017166A /* SearchQuery.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -183,6 +188,7 @@
 				C26FD4CF206643230065DEE3 /* ReusableView.swift */,
 				C26FD4D1206643610065DEE3 /* NibLoadableView.swift */,
 				C26FD4D3206643F40065DEE3 /* TableView.swift */,
+				C237618920693CF30017166A /* PersistenceStore.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -360,16 +366,20 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-SearchMovies/Pods-SearchMovies-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -399,16 +409,20 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-SearchMoviesTests/Pods-SearchMoviesTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -425,7 +439,9 @@
 			files = (
 				C26FD4C620652D630065DEE3 /* Movie.swift in Sources */,
 				C26FD4D4206643F40065DEE3 /* TableView.swift in Sources */,
+				C237618C20693DE60017166A /* SearchQuery.swift in Sources */,
 				C26FD4D0206643230065DEE3 /* ReusableView.swift in Sources */,
+				C237618A20693CF30017166A /* PersistenceStore.swift in Sources */,
 				C26FD4C1206522070065DEE3 /* APIRequest.swift in Sources */,
 				C26FD4CB20663F790065DEE3 /* MovieTableViewCell.swift in Sources */,
 				C26FD4C32065273C0065DEE3 /* SearchRequest.swift in Sources */,

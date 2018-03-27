@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 class ViewController: UIViewController {
 
@@ -44,6 +45,7 @@ class ViewController: UIViewController {
     
     func configureTableView() {
         tableView.register(MovieTableViewCell.self)
+        tableView.register(UITableViewCell.self)
         tableView.estimatedRowHeight = 187
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.tableHeaderView = searchController.searchBar
@@ -61,11 +63,47 @@ class ViewController: UIViewController {
             .bind(to: movieModel.searchText)
             .disposed(by: disposeBag)
         
-        movieModel.results.drive(tableView.rx.items(cellIdentifier: MovieTableViewCell.defaultReuseIdentifier, cellType: MovieTableViewCell.self)) { _, movie, cell in
-            cell.setUp(movie: movie)
+        
+//        movieModel.results.drive(tableView.rx.items(cellIdentifier: MovieTableViewCell.defaultReuseIdentifier, cellType: MovieTableViewCell.self)) { _, movie, cell in
+//            cell.setUp(movie: movie)
+//            }
+//            .disposed(by: disposeBag)
+        
+        let dataSource = RxTableViewSectionedReloadDataSource<SectionOfCustomData>(configureCell: { (dataSource, table, idxPath, _) in
+            switch dataSource[idxPath] {
+            case .movie(let movie):
+                let cell : MovieTableViewCell = table.dequeueReusableCell(withIdentifier: MovieTableViewCell.defaultReuseIdentifier) as! MovieTableViewCell
+                cell.setUp(movie: movie)
+                cell.selectionStyle = .none
+                return cell;
+
+            case .searchHistory(let searchQuery) :
+                let cell : UITableViewCell = table.dequeueReusableCell(withIdentifier: UITableViewCell.defaultReuseIdentifier)!
+                cell.textLabel?.text = searchQuery.value
+                cell.selectionStyle = .gray
+                return cell
+
             }
+         })
+        
+        tableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+              let obj = dataSource[indexPath]
+                
+                switch obj {
+                case .searchHistory(let query) :
+                    self?.searchBar.text = query.value
+                    self?.searchController.isActive = true
+                    self?.movieModel.searchText.value = query.value
+                    break
+                default : break
+                }
+                
+            }).disposed(by: disposeBag)
+        
+        movieModel.data.asObservable().bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
-       
+        
         tableView.rx.reachedBottom
             .map{ _ in ()}
             .bind(to: movieModel.newPageNeeded)

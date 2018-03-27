@@ -4,7 +4,8 @@ use_frameworks!
 def shared_pods
     pod 'RxSwift'
     pod 'RxCocoa'
-    pod 'RealmSwift' 
+    pod 'RealmSwift'
+    pod 'RxDataSources', '~> 3.0'
 end
 
 target 'SearchMovies' do
