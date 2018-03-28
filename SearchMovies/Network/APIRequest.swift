@@ -34,6 +34,7 @@ extension APIRequest {
         
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
+        request.timeoutInterval = 15
         return request
     }
 }

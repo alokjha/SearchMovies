@@ -12,9 +12,8 @@ import RxCocoa
 
 class ViewController: UIViewController {
 
-    let client = MovieSearchClient()
     let disposeBag = DisposeBag()
-    var movieModel = ResultViewModel()
+    var resultViewModel = ResultViewModel()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -44,7 +43,7 @@ class ViewController: UIViewController {
         tableView.delegate = self
         tableView.register(MovieTableViewCell.self)
         tableView.register(UITableViewCell.self)
-        tableView.estimatedRowHeight = 170
+        tableView.estimatedRowHeight = 186
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.tableHeaderView = searchController.searchBar
     }
@@ -53,32 +52,38 @@ class ViewController: UIViewController {
     
         searchBar.rx.cancelButtonClicked
             .map{""}
-            .bind(to: movieModel.searchText)
+            .bind(to: resultViewModel.searchText)
             .disposed(by: disposeBag)
 
         searchBar.rx.searchButtonClicked
             .map{return self.searchBar.text!}
-            .bind(to: movieModel.searchText)
+            .bind(to: resultViewModel.searchText)
             .disposed(by: disposeBag)
         
-        let movieObservable = movieModel.results.asObservable()
-        let stateObservable = movieModel.searchState.asObservable()
+        let movieObservable = resultViewModel.results.asObservable()
+        let stateObservable = resultViewModel.searchState.asObservable()
         
         Observable.zip(stateObservable,movieObservable)
             .bind { (state , results)  in
                 
-                if self.searchState != state {
+                if self.searchState != state || state == .emptyResults {
                      self.results.removeAll()
                 }
-                else if state == .emptyResults {
-                    self.results.removeAll()
-                }
-                
                 self.searchState = state
                 self.results.append(contentsOf: results)
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
+        }.disposed(by: disposeBag)
+        
+        resultViewModel.errorMessage.bind { (error) in
+            let alertController = UIAlertController(title: "Alert", message: error.debugDescription, preferredStyle: .alert)
+            self.present(alertController, animated: true, completion: nil)
+            let actionOk = UIAlertAction(title: "OK", style: .default,
+                                         handler: { action in alertController.dismiss(animated: true, completion: nil) })
+            
+            alertController.addAction(actionOk)
+            
         }.disposed(by: disposeBag)
     
     }
@@ -121,8 +126,8 @@ extension ViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         if self.searchState == .searchResults && self.results.count > 0 {
-            if indexPath.row == self.results.count - 3 {
-                movieModel.newPageNeeded.onNext(())
+            if indexPath.row == self.results.count - 2 {
+                resultViewModel.loadNextPage()
             }
         }
     }
@@ -139,35 +144,11 @@ extension ViewController : UITableViewDelegate {
         case .searchHistory(let query) :
             self.searchBar.text = query.value
             self.searchController.isActive = true
-            self.movieModel.searchText.value = query.value
+            self.resultViewModel.searchText.value = query.value
             break
         default : break
         }
     }
 }
 
-extension Reactive where Base: UIScrollView {
-    
-    var reachedBottom: ControlEvent<Void> {
-        let observable = contentOffset
-            .flatMap { [weak base] contentOffset -> Observable<Void> in
-                guard let scrollView = base else {
-                    return Observable.empty()
-                }
-                
-                let visibleHeight = scrollView.frame.height - scrollView.contentInset.top - scrollView.contentInset.bottom
-                let y = contentOffset.y + scrollView.contentInset.top
-                let threshold = max(0.0, scrollView.contentSize.height - visibleHeight)
-                
-                if y > threshold{
-                    return Observable.just(())
-                }
-                else{
-                    return Observable.empty()
-                }
-        }
-        
-        return ControlEvent(events: observable)
-    }
-}
 

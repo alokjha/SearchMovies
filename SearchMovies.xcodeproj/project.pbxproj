@@ -11,6 +11,11 @@
 		7EDCEFE6E316DC9A888CF3C1 /* Pods_SearchMovies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17CB57692D25149FEA5F5D4 /* Pods_SearchMovies.framework */; };
 		C237618A20693CF30017166A /* PersistenceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C237618920693CF30017166A /* PersistenceStore.swift */; };
 		C237618C20693DE60017166A /* SearchQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = C237618B20693DE60017166A /* SearchQuery.swift */; };
+		C2411BE7206BC94200C34A17 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2411BE6206BC94200C34A17 /* APIError.swift */; };
+		C2411BE9206BCBC500C34A17 /* ImageClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2411BE8206BCBC500C34A17 /* ImageClient.swift */; };
+		C2411BEB206BCBFB00C34A17 /* MovieClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2411BEA206BCBFB00C34A17 /* MovieClient.swift */; };
+		C2411BED206BCC6900C34A17 /* MovieResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2411BEC206BCC6900C34A17 /* MovieResponse.swift */; };
+		C2411BEF206BCCA200C34A17 /* SearchQueryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2411BEE206BCCA200C34A17 /* SearchQueryStore.swift */; };
 		C2572F86206649CC00F418A2 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2572F85206649CC00F418A2 /* ImageModel.swift */; };
 		C26FD49820650A030065DEE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26FD49720650A030065DEE3 /* AppDelegate.swift */; };
 		C26FD49A20650A030065DEE3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26FD49920650A030065DEE3 /* ViewController.swift */; };
@@ -49,6 +54,11 @@
 		88166DFB5C74EA5CE75F2EF8 /* Pods-SearchMovies.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchMovies.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SearchMovies/Pods-SearchMovies.debug.xcconfig"; sourceTree = "<group>"; };
 		C237618920693CF30017166A /* PersistenceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceStore.swift; sourceTree = "<group>"; };
 		C237618B20693DE60017166A /* SearchQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchQuery.swift; sourceTree = "<group>"; };
+		C2411BE6206BC94200C34A17 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		C2411BE8206BCBC500C34A17 /* ImageClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageClient.swift; sourceTree = "<group>"; };
+		C2411BEA206BCBFB00C34A17 /* MovieClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieClient.swift; sourceTree = "<group>"; };
+		C2411BEC206BCC6900C34A17 /* MovieResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieResponse.swift; sourceTree = "<group>"; };
+		C2411BEE206BCCA200C34A17 /* SearchQueryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchQueryStore.swift; sourceTree = "<group>"; };
 		C2572F85206649CC00F418A2 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
 		C26FD49420650A030065DEE3 /* SearchMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C26FD49720650A030065DEE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -168,6 +178,9 @@
 			isa = PBXGroup;
 			children = (
 				C26FD4B9206522070065DEE3 /* APIClient.swift */,
+				C2411BEA206BCBFB00C34A17 /* MovieClient.swift */,
+				C2411BE8206BCBC500C34A17 /* ImageClient.swift */,
+				C2411BE6206BC94200C34A17 /* APIError.swift */,
 				C26FD4BC206522070065DEE3 /* APIRequest.swift */,
 				C26FD4BA206522070065DEE3 /* ImageRequest.swift */,
 				C26FD4C22065273C0065DEE3 /* SearchRequest.swift */,
@@ -178,11 +191,13 @@
 		C26FD4C420652D4B0065DEE3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C2411BEE206BCCA200C34A17 /* SearchQueryStore.swift */,
 				C2C28D99206AC81700883AD3 /* ResultViewModel.swift */,
 				C2C28D95206AA32A00883AD3 /* Result.swift */,
 				C2C28D97206AA34B00883AD3 /* SearchState.swift */,
 				C2572F85206649CC00F418A2 /* ImageModel.swift */,
 				C26FD4C520652D630065DEE3 /* Movie.swift */,
+				C2411BEC206BCC6900C34A17 /* MovieResponse.swift */,
 				C237618B20693DE60017166A /* SearchQuery.swift */,
 			);
 			path = Model;
@@ -427,23 +442,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2411BED206BCC6900C34A17 /* MovieResponse.swift in Sources */,
 				C2C28D9A206AC81700883AD3 /* ResultViewModel.swift in Sources */,
 				C26FD4C620652D630065DEE3 /* Movie.swift in Sources */,
 				C26FD4D4206643F40065DEE3 /* TableView.swift in Sources */,
+				C2411BE9206BCBC500C34A17 /* ImageClient.swift in Sources */,
 				C237618C20693DE60017166A /* SearchQuery.swift in Sources */,
 				C26FD4D0206643230065DEE3 /* ReusableView.swift in Sources */,
 				C237618A20693CF30017166A /* PersistenceStore.swift in Sources */,
+				C2411BEB206BCBFB00C34A17 /* MovieClient.swift in Sources */,
 				C26FD4C1206522070065DEE3 /* APIRequest.swift in Sources */,
 				C2C28D96206AA32A00883AD3 /* Result.swift in Sources */,
 				C26FD4CB20663F790065DEE3 /* MovieTableViewCell.swift in Sources */,
 				C26FD4C32065273C0065DEE3 /* SearchRequest.swift in Sources */,
 				C2C28D98206AA34B00883AD3 /* SearchState.swift in Sources */,
+				C2411BEF206BCCA200C34A17 /* SearchQueryStore.swift in Sources */,
 				C26FD4D2206643610065DEE3 /* NibLoadableView.swift in Sources */,
 				C26FD49A20650A030065DEE3 /* ViewController.swift in Sources */,
 				C26FD49820650A030065DEE3 /* AppDelegate.swift in Sources */,
 				C26FD4BE206522070065DEE3 /* APIClient.swift in Sources */,
 				C2572F86206649CC00F418A2 /* ImageModel.swift in Sources */,
 				C26FD4BF206522070065DEE3 /* ImageRequest.swift in Sources */,
+				C2411BE7206BC94200C34A17 /* APIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

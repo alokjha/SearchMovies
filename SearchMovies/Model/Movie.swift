@@ -23,17 +23,4 @@ struct Movie: Codable {
     }
 }
 
-struct MovieResponse : Codable {
-    
-    let page : Int
-    let totalResults : Int
-    let totalPages : Int
-    let results : [Movie]
-    
-    private enum CodingKeys : String , CodingKey {
-        case page
-        case totalResults = "total_results"
-        case totalPages = "total_pages"
-        case results
-    }
-}
+

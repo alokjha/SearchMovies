@@ -10,22 +10,6 @@ import Foundation
 import RxSwift
 
 
-enum APIClientError: Error {
-    case CouldNotDownloadImage
-    case Other(Error)
-}
-
-extension APIClientError: CustomDebugStringConvertible {
-    var debugDescription: String {
-        switch self {
-        case .CouldNotDownloadImage:
-            return "Could not download image"
-        case let .Other(error):
-            return "\(error)"
-        }
-    }
-}
-
 protocol APIClient : class {
     var baseURL : URL {get set}
     func send<T: Codable>(apiRequest: APIRequest) -> Observable<T>
@@ -38,7 +22,7 @@ extension APIClient {
             let request = apiRequest.request(with: self.baseURL)
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 guard error == nil else {
-                    observer.onError(APIClientError.Other(error!))
+                    observer.onError(APIError.Other(error!.localizedDescription))
                     observer.onCompleted()
                     return
                 }
@@ -47,7 +31,7 @@ extension APIClient {
                     let model: T = try JSONDecoder().decode(T.self, from: data ?? Data())
                     observer.onNext(model)
                 } catch let error {
-                    observer.onError(APIClientError.Other(error))
+                    observer.onError(APIError.Other(error.localizedDescription))
                 }
                 observer.onCompleted()
             }
@@ -61,40 +45,5 @@ extension APIClient {
     }
 }
 
-
-class  MovieSearchClient : APIClient {
-    var baseURL: URL = URL(string: "https://api.themoviedb.org/3/")!
-}
-
-class ImageClient : APIClient {
-    var baseURL: URL = URL(string: "https://image.tmdb.org/t/p/w92")!
-    
-    func downloadImage(imageRequest : ImageRequest) -> Observable<UIImage> {
-        return Observable<UIImage>.create { [unowned self] observer in
-            let request = imageRequest.request(with: self.baseURL)
-            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                guard error == nil else {
-                    observer.onError(APIClientError.Other(error!))
-                    observer.onCompleted()
-                    return
-                }
-                
-                guard let data = data ,let image = UIImage(data:data) else {
-                    observer.onError(APIClientError.CouldNotDownloadImage)
-                    observer.onCompleted()
-                    return
-                }
-                observer.onNext(image)
-                observer.onCompleted()
-            }
-            
-            task.resume()
-            
-            return Disposables.create {
-                task.cancel()
-            }
-        }
-    }
-}
 
 
