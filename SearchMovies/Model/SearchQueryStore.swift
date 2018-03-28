@@ -32,7 +32,7 @@ struct SearchQueryStore : PersistenceStore {
         }
         
         if array.count == 10 {
-            array.removeFirst()
+            array.removeLast()
             array.insert(value, at: 0)
         }
         else {
